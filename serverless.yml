@@ -1,4 +1,4 @@
-service: lambda-node-s3
+service: lambda-node
 
 provider:
   name: aws
@@ -15,12 +15,12 @@ plugins:
   - serverless-iam-roles-per-function
 
 custom:
-  fileBucketName: s3-lambda-${self:provider.stage}
+  fileBucketName: s3-node-lambda-${self:provider.stage}
 
 functions:
   s3FileUploader:
     handler: src/upload.handler
-    name: s3-file-uploader
+    name: s3-uploader
     description: A lambda handler that uploads a file to an S3 bucket based on an API Gateway trigger.
     events:
       - http:
@@ -33,7 +33,7 @@ functions:
         Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
   s3FileGet:
     handler: src/get.handler
-    name: s3-file-get
+    name: s3-get
     description: A lambda handler that retrieves a file from an S3 bucket based on an API Gateway trigger.
     events:
       - http:
@@ -46,7 +46,7 @@ functions:
         Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
   s3FileDelete:
     handler: src/delete.handler
-    name: s3-file-delete
+    name: s3-delete
     description: A lambda handler that deletes a file from an S3 bucket based on an API Gateway trigger.
     events:
       - http:
